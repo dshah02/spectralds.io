@@ -248,134 +248,117 @@
       </style>
     </section>
 
-    <section>
-      <h2>Planning Invariance enables Horizon Generalization</h2>
-      <div>
-        <p>
-          A policy generalizes over the horizon if performance for start-goal pairs $(s,g)$
-          separated by a small temporal distance $d(s,g) < c$ yields improved performance over more distant start-goal
-            pairs $(s',g')$ with $d(s',g')> c$.
-        </p>
-      </div>
-      <div class="theorem">
-        <span>Definition</span>
-        <span>Horizon Generalization</span>
-        Suppose $c &gt; 0$ and $d(s, g)$ is a quasimetric over the start-goal space $\S \times
-        \S$. In the single-goal, controlled ("fixed") case, a policy $\pi(a\mid s,g)$
-        <em>generalizes over the horizon</em> if optimality over nearby start-goal pairs
-        $\mathcal{B}_{c} = \{(s,g) \in \mathcal{S \times S} \mid d(s,g) &lt; c\}$ everywhere
-        implies optimality over the entire state space $\mathcal{S}$.
-      </div>
-      <div class="columns">
-        <div class="wide vertical aypad">
-          <p>
-            This property is closely related to the notion of planning invariance, and we
-            theoretically show that planning invariance is a necessary condition for horizon
-            generalization. Empirically, we will also see that planning invariance is closely
-            linked with this notion of horizon generalization.
-          </p>
-        </div>
-        <div class="thin grow vertical">
-          <img src="static/oldfigures/horizon_generalization_dull_purple.svg" />
-        </div>
-      </div>
-      <div class="theorem">
-        <span>Definition</span>
-        <span>Path Relaxation Operator</span>
-        Let $\sc{PATH}_{d}(s,g)$ be the path relaxation operator over quasimetric $d(s,g)$. For
-        any triplet of states $(s,w,g) \in \gS \times \gS \times \gS$, \[ d(s,g) \leftarrow
-        \sc{PATH}_{d}(s,g) \triangleq \min_w d(s, w) + d(w, g). \]
-      </div>
-      <div class="theorem">
-        <span>Theorem</span>
-        <span>Horizon generalization exists</span>
-        Consider a deterministic goal-conditioned MDP with states $\gS$, actions $\gA$, and
-        goal-conditioned Kronecker delta reward function $r_{g}(s) = \delta_{(s,g)}$ where there
-        are no states outside of $\gS$. Let finite thresholds $c &gt; 0$ and quasimetrics $d(s,g)$
-        over the start-goal space $\gS \times \gS$ be given. Then, a quasimetric policy
-        $\pi_{d}(a\mid s,g)$ that is optimal over $\cB_{c} = \{(s,g) \in \mathcal{S \times S} \mid
-        d(s,g) &lt; c\}$ is optimal over the entire start-goal space $\cS \times \cS$.
-      </div>
-      <div class="columns xspace centered margin">
-        <div class="half vertical">
-          <p class="caption">
-            <b>Figure.</b>
-            Empirically, we compare the degree of planning invariance and horizon generalization
-            ($\eta$ in figure) for different GCRL methods in a maze task. These quantities are
-            generally correlated. The exception is the random policy, which is trivially planning
-            invariant but does not generalize over the horizon&mdash;planning invariance is
-            necessary but not sufficient for horizon generalization.
-          </p>
-        </div>
-        <div class="wide vertical margin xpad">
-          <img src="static/oldfigures/invariance_eta.svg" />
-        </div>
-      </div>
-    </section>
-
-    <section>
-      <h2>Empirical Results</h2>
-      <div class="yspace centered">
-        <!-- Single row for emergent capabilities -->
-        <div class="full-width margin" style="width: 100%; margin: 0; display: flex; align-items: center;">
-          <div style="width: 61%; margin: 0;">
-            <img src="static/figures/emergent_capabilities.png" width="100%" />
-          </div>
-          <p class="caption" style="width: 35%; margin-left: 4%;">
-            <b>Figure.</b>
-            <br />
-            <b>Increasing depth results in new capabilities:</b><br />
-            <b><i>Row 1</i></b>: A humanoid agent trained with network depth 4 collapses and throws itself towards the
-            goal, as
-            opposed to in <b><i>Row 2</i></b>, where the depth 16 agent gains the ability to walk upright.
-            <br /><b><i>Row 3</i></b>: At depth 64, the humanoid agent in U-Maze struggles to reach the goal and falls.
-            <br /><b><i>Row 4</i></b>: An impressively novel policy emerges at depth 256, as the agent exhibits an
-            acrobatic
-            strategy
-            of compressing its body to vault over the maze wall.
-          </p>
-        </div>
-
-        <!-- Two column layout for remaining pairs -->
-        <div class="columns bypad centered" style="width: 100%; margin: 0; display: flex;">
-          <div style="width: 48%; margin-right: 2%;">
-            <div style="width: 60%; margin: 0 auto;">
-              <img src="static/figures/stitching.png" width="100%" />
+    <main>
+      <section>
+        <h2>Empirical Results</h2>
+        <h3>TODO: COMMENTARY HERE</h3>
+        <div class="yspace centered">
+          <div class="full-width margin"
+            style="width: 100%; margin: 0; display: flex; align-items: center; justify-content: center;">
+            <div style="width: 90%; margin: 0; text-align: center;">
+              <img src="static/figures/main_results.png" width="100%" />
             </div>
-            <p class="caption">
-              <b>Figure.</b><br />
-              <b>Deeper networks exhibit improved generalization.</b> <i>(Top left)</i> We modify the training setup of
-              the Ant U-Maze environment such that start-goal pairs are separated by ≤3 units. This design guarantees
-              that no evaluation pairs <i>(top right)</i> were encountered during training, testing the ability for
-              combinatorial generalization via "stitching."
+          </div>
+          <p class="caption" style="width: 90%; margin: 20px auto;">
+            <b>Figure.</b>
+            <b>Scaling network depth yields performance gains</b> across a suite of locomotion, navigation, and
+            manipulation tasks, ranging from doubling performance to 50× improvements on Humanoid-based tasks. Notably,
+            rather than scaling smoothly, performance often jumps at specific "critical" depths (e.g., 8 layers on Ant
+            Big Maze, 64 on Humanoid U-Maze), which correspond to the emergence of qualitatively distinct learned
+            policies (see <a href="#qualitative-evaluation">Qualitative Evaluation of Scaling Depth</a>).
+          </p>
+
+          <h3>TODO: COMMENTARY HERE</h3>
+          <!-- Two column layout for width and batch size -->
+          <div class="columns bypad centered" style="width: 100%; margin: 0; display: flex;">
+            <div style="width: 48%; margin-right: 2%;">
+              <div style="width: 100%; margin: 0 auto;">
+                <img src="static/figures/network_widths.png" width="100%" />
+              </div>
+              <p class="caption">
+                <b>Figure.</b><br />
+                Analysis of network width scaling and its impact on performance across different environments.
+              </p>
+            </div>
+            <div style="width: 48%; margin-left: 2%;">
+              <div style="width: 100%; margin: 0 auto;">
+                <img src="static/figures/batch_sizes.png" width="100%" />
+              </div>
+              <p class="caption">
+                <b>Figure.</b><br />
+                Effect of batch size scaling on training dynamics and final performance.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="qualitative-evaluation">
+        <h2>Qualitative Evaluation of Scaling Depth</h2>
+        <div class="yspace centered">
+          <!-- Single row for emergent capabilities -->
+          <div class="full-width margin" style="width: 100%; margin: 0; display: flex; align-items: center;">
+            <div style="width: 61%; margin: 0;">
+              <img src="static/figures/emergent_capabilities.png" width="100%" />
+            </div>
+            <p class="caption" style="width: 35%; margin-left: 4%;">
+              <b>Figure.</b>
               <br />
-              <i>(Bottom)</i> Generalization ability improves as network
-              depth grows from 4 to 16 to 64 layers.
+              <b>Increasing depth results in new capabilities:</b><br />
+              <b><i>Row 1</i></b>: A humanoid agent trained with network depth 4 collapses and throws itself towards the
+              goal, as
+              opposed to in <b><i>Row 2</i></b>, where the depth 16 agent gains the ability to walk upright.
+              <br /><b><i>Row 3</i></b>: At depth 64, the humanoid agent in U-Maze struggles to reach the goal and
+              falls.
+              <br /><b><i>Row 4</i></b>: An impressively novel policy emerges at depth 256, as the agent exhibits an
+              acrobatic
+              strategy
+              of compressing its body to vault over the maze wall.
             </p>
           </div>
-          <div style="width: 48%; margin-left: 2%;">
-            <div style="width: 70%; margin: 0 auto;">
-              <img src="static/figures/Q_vis.png" width="100%" />
+
+          <!-- Two column layout for remaining pairs -->
+          <div class="columns bypad centered" style="width: 100%; margin: 0; display: flex;">
+            <div style="width: 48%; margin-right: 2%;">
+              <div style="width: 60%; margin: 0 auto;">
+                <img src="static/figures/stitching.png" width="100%" />
+              </div>
+              <p class="caption">
+                <b>Figure.</b><br />
+                <b>Deeper networks exhibit improved generalization.</b> <i>(Top left)</i> We modify the training setup
+                of
+                the Ant U-Maze environment such that start-goal pairs are separated by ≤3 units. This design guarantees
+                that no evaluation pairs <i>(top right)</i> were encountered during training, testing the ability for
+                combinatorial generalization via "stitching."
+                <br />
+                <i>(Bottom)</i> Generalization ability improves as network
+                depth grows from 4 to 16 to 64 layers.
+              </p>
             </div>
-            <p class="caption">
-              <b>Figure.</b><br />
-              <b>Deeper Q-functions are qualitatively different.</b> In the U4-Maze, the start and goal positions are
-              indicated by the ⊙ and <b>G</b> symbols respectively, and the visualized Q values are computed via the L₂
-              distance in the learned representation space, i.e., Q(s,a,g) = ‖φ(s,a) - ψ(g)‖₂. The shallow depth-4
-              network <i>(left)</i> appears to naively rely on Euclidean proximity, exhibited by the high Q values of
-              the semicircular gradient near the start position, despite the maze wall.
-              <br />
-              In the depth-64 heatmap
-              <i>(right)</i>, the highest Q values cluster at the goal, gradually tapering along the maze's interior
-              boundary. These results highlight how increasing depth is important for learning value functions in
-              goal-conditioned settings, which are characterized by long horizons and sparse rewards.
-            </p>
+            <div style="width: 48%; margin-left: 2%;">
+              <div style="width: 70%; margin: 0 auto;">
+                <img src="static/figures/Q_vis.png" width="100%" />
+              </div>
+              <p class="caption">
+                <b>Figure.</b><br />
+                <b>Deeper Q-functions are qualitatively different.</b> In the U4-Maze, the start and goal positions are
+                indicated by the ⊙ and <b>G</b> symbols respectively, and the visualized Q values are computed via the
+                L₂
+                distance in the learned representation space, i.e., Q(s,a,g) = ‖φ(s,a) - ψ(g)‖₂. The shallow depth-4
+                network <i>(left)</i> appears to naively rely on Euclidean proximity, exhibited by the high Q values of
+                the semicircular gradient near the start position, despite the maze wall.
+                <br />
+                In the depth-64 heatmap
+                <i>(right)</i>, the highest Q values cluster at the goal, gradually tapering along the maze's interior
+                boundary. These results highlight how increasing depth is important for learning value functions in
+                goal-conditioned settings, which are characterized by long horizons and sparse rewards.
+              </p>
+            </div>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
 
-    <section>
+      <!-- <section>
       <h2>Empirical Evaluation of Horizon Generalization</h2>
       <div class="yspace centered">
         <div class="columns aypad centered">
@@ -434,75 +417,76 @@
           </div>
         </div>
       </div>
-    </section>
+    </section> -->
 
-    <section>
-      <h2>Summary of Key Empirical Findings</h2>
-      <div class="findings-container">
-        <ul class="key-findings">
-          <li>
-            CRL is scalable to depths unattainable by other RL proprioceptive algorithms (1000+ layers), perhaps due to
-            its self-supervised nature.
-          </li>
-          <li>
-            Both width and depth are key factors influencing CRL's performance, but depth achieves greater performance
-            and better parameter-efficiency (similar performance for 50× smaller models).
-          </li>
-          <li>
-            We observe signs of emergent behaviors in CRL with deep neural networks, such as humanoid learning to walk
-            and navigate a maze.
-          </li>
-          <li>
-            Scale unlocks learning difficult maze topologies.
-          </li>
-          <li>
-            Batch size scaling occurs in CRL for deep networks.
-          </li>
-          <li>
-            CRL benefits from both the actor and critic scale.
-          </li>
-        </ul>
-      </div>
+      <section>
+        <h2>Summary of Key Empirical Findings</h2>
+        <div class="findings-container">
+          <ul class="key-findings">
+            <li>
+              CRL is scalable to depths unattainable by other RL proprioceptive algorithms (1000+ layers), perhaps due
+              to
+              its self-supervised nature.
+            </li>
+            <li>
+              Both width and depth are key factors influencing CRL's performance, but depth achieves greater performance
+              and better parameter-efficiency (similar performance for 50× smaller models).
+            </li>
+            <li>
+              We observe signs of emergent behaviors in CRL with deep neural networks, such as humanoid learning to walk
+              and navigate a maze.
+            </li>
+            <li>
+              Scale unlocks learning difficult maze topologies.
+            </li>
+            <li>
+              Batch size scaling occurs in CRL for deep networks.
+            </li>
+            <li>
+              CRL benefits from both the actor and critic scale.
+            </li>
+          </ul>
+        </div>
 
-      <style>
-        .findings-container {
-          background-color: #f5f5f5;
-          border: 1px solid #ddd;
-          border-radius: 8px;
-          padding: 20px;
-          margin: 20px 0;
-          width: 70%;
-        }
+        <style>
+          .findings-container {
+            background-color: #f5f5f5;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            width: 70%;
+          }
 
-        .key-findings {
-          margin: 0;
-          padding-left: 20px;
-        }
+          .key-findings {
+            margin: 0;
+            padding-left: 20px;
+          }
 
-        .key-findings li {
-          margin-bottom: 10px;
-        }
+          .key-findings li {
+            margin-bottom: 10px;
+          }
 
-        .key-findings li:last-child {
-          margin-bottom: 0;
-        }
-      </style>
-    </section>
+          .key-findings li:last-child {
+            margin-bottom: 0;
+          }
+        </style>
+      </section>
 
-    <section>
-      <h2>
-        ${\bf B\kern-.05em{\small I\kern-.025em B}\kern-.08em
-        T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}$
-      </h2>
-      <pre class="language-bibtex bibtex" id="bibtex" onclick="selectContent('#bibtex')"><code>@inproceedings{myers2025horizon,
+      <section>
+        <h2>
+          ${\bf B\kern-.05em{\small I\kern-.025em B}\kern-.08em
+          T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}$
+        </h2>
+        <pre class="language-bibtex bibtex" id="bibtex" onclick="selectContent('#bibtex')"><code>@inproceedings{myers2025horizon,
     author    = {Myers, Vivek and Ji, Catherine and Eysenbach, Benjamin},
     booktitle = {{International Conference} on {Learning Representations}},
     title     = {{Horizon Generalization} in {Reinforcement Learning}},
     url       = {https://arxiv.org/abs/2501.02709},
     year      = {2025},
 }</code></pre>
-    </section>
-  </main>
+      </section>
+    </main>
 </body>
 
 </html>
