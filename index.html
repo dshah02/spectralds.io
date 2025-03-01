@@ -245,6 +245,10 @@
           margin-top: 0;
           text-align: center;
         }
+
+        #qualitative-evaluation {
+          scroll-margin-top: 30px;
+        }
       </style>
     </section>
 
@@ -265,13 +269,15 @@
           improvements on Humanoid-based tasks. Notably,
           rather than scaling smoothly, performance often jumps at specific "critical" depths (e.g., 8 layers on Ant
           Big Maze, 64 on Humanoid U-Maze), which correspond to the emergence of qualitatively distinct learned
-          policies (see <a href="#qualitative-evaluation">Qualitative Evaluation of Scaling Depth</a>).
+          <!-- policies (see <a href="#qualitative-evaluation">Qualitative Evaluation of Scaling Depth</a>). -->
+          policies (see the <a href="#qualitative-evaluation">section below</a>).
         </p>
       </div>
 
       <hr style="width: 50%; margin: 40px auto; border: none; border-top: 1px solid #ddd;" />
 
-      <h3 style="text-align: center; color: #27579a;">Scaling Depth Unlocks New/Qualitatively Different/Emergent
+      <h3 id="qualitative-evaluation" style="text-align: center; color: #27579a;">Scaling Depth Unlocks
+        New/Qualitatively Different/Emergent
         Capabilities</h3>
       <div class="yspace centered">
         <!-- Single row for emergent capabilities -->
