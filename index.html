@@ -1,0 +1,508 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description"
+    content="1000 Layer Networks for Self-Supervised RL: Scaling Depth Can Enable New Goal-Reaching Capabilities" />
+  <link rel="stylesheet" href="./static/css/fontawesome.all.min.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css" />
+  <script defer src="./static/js/fontawesome.all.min.js"></script>
+  <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-solarizedlight.min.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs-bibtex@2.1.0/prism-bibtex.min.js"></script>
+  <link rel="stylesheet" href="static/css/index.css" />
+
+  <title>1000 Layer Networks for Self-Supervised RL: Scaling Depth Can Enable New Goal-Reaching Capabilities</title>
+
+  <script type="text/javascript" id="MathJax-script" async
+    src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.0/es5/tex-svg.js"></script>
+  <script>
+    function selectContent(query) {
+      var range = document.createRange()
+      var selection = window.getSelection()
+      var elem = document.querySelector(query)
+      range.selectNodeContents(elem)
+      selection.removeAllRanges()
+      selection.addRange(range)
+    }
+  </script>
+</head>
+
+<body>
+  <script type="text/javascript">
+    window.MathJax = {
+      tex: {
+        inlineMath: [
+          ["$", "$"],
+          ["\\(", "\\)"],
+        ],
+        displayMath: [
+          ["$$", "$$"],
+          ["\\[", "\\]"],
+        ],
+        processEscapes: true,
+        macros: {
+          planclass: "\\operatorname{\\mathbf{plan}}",
+          S: "\\mathcal{S}",
+          gS: "\\mathcal{S}",
+          cS: "\\mathcal{S}",
+          cB: "\\mathcal{B}",
+          cA: "\\mathcal{A}",
+          A: "\\mathcal{A}",
+          gA: "\\mathcal{A}",
+          D: "\\mathcal{D}",
+          R: "\\mathbb{R}",
+          E: "\\mathbb{E}",
+          P: "\\mathrm{P}",
+          var: "\\mathrm{Var}",
+          cov: "\\mathrm{Cov}",
+          argmin: "\\mathop{\\arg\\min}",
+          argmax: "\\mathop{\\arg\\max}",
+        },
+      },
+      svg: {
+        fontCache: "global",
+      },
+    }
+  </script>
+  <header>
+    <h1>1000 Layer Networks for Self-Supervised RL: Scaling Depth Can Enable New Goal-Reaching Capabilities</h1>
+    <div class="authors">
+      <span class="author">
+        <a>Kevin Wang</a></span>
+      <span class="affil">1</span>
+      <span class="author">
+        <a>Ishaan Javali</a></span>
+      <span class="affil">1</span>
+      <span class="author">
+        <a>Michał Bortkiewicz</a></span>
+      <span class="affil">2</span>
+      <span class="author">
+        <a>Tomasz Trzcinski</a></span>
+      <span class="affil">2</span>
+      <span class="author">
+        <a href="https://ben-eysenbach.github.io">Benjamin Eysenbach</a></span>
+      <span class="affil">1</span>
+    </div>
+    <div class="notes">
+      <span class="affil">1</span>
+      <span class="institution">Princeton University</span>
+      <span class="affil">2</span>
+      <span class="institution">Warsaw University of Technology</span>
+    </div>
+    <div class="links">
+      <span class="link">
+        <a href="./static/pdf/scaling_rl.pdf" target="_blank" class="button">
+          <span class="icon"><i class="fas fa-file-pdf"></i></span><span>Paper</span>
+        </a>
+      </span>
+      <span class="link">
+        <a href="https://arxiv.org/abs/2501.02709" class="button">
+          <span class="icon"><i class="ai ai-arxiv"></i></span><span>arXiv</span>
+        </a>
+      </span>
+      <span class="link">
+        <a href="https://anonymous.4open.science/r/scaling-crl-04B6/" class="button">
+          <span class="icon"><i class="fas fa-code"></i></span><span>Code</span>
+        </a>
+      </span>
+    </div>
+  </header>
+
+  <main>
+    <section>
+      <div class="summary">
+        <!-- <video id="overview" controls="" width="99%" poster="./static/videos/overview.png">
+          <source src="static/videos/overview.mp4" type="video/mp4" />
+        </video> -->
+        <img src="static/figures/main_results.png" width="99%" alt="Main Results" />
+      </div>
+    </section>
+
+    <section>
+      <div class="columns">
+        <div class="wide">
+          <div class="abstract">
+            <h3>Abstract</h3>
+            <p>
+              Scaling up self-supervised learning has driven
+              breakthroughs in language and vision, yet comparable progress has remained elusive in reinforcement
+              learning (RL). In
+              this paper, we introduce a self-supervised RL paradigm that unlocks
+              substantial improvements in scalability, with network depth serving as a critical factor. Whereas
+              most RL papers in recent years have relied on
+              shallow architectures (around 2 – 5 layers), we
+              demonstrate that increasing the depth up to 512
+              layers can significantly boost performance. Our
+              experiments are conducted in an unsupervised
+              goal-conditioned setting, where no demonstrations or rewards are provided, so an agent must
+              explore (from scratch) and learn how to maximize the likelihood of reaching commanded goals.
+              Evaluated on a diverse range of simulated locomotion and manipulation tasks, our approach
+              ranges from doubling performance to over 50×
+              on humanoid-based tasks. Increasing the model
+              depth not only increases success rates but also
+              qualitatively changes the behaviors learned, with
+              more sophisticated behaviors emerging as model
+              capacity grows.
+            </p>
+          </div>
+        </div>
+        <div></div>
+        <div class="medium vertical">
+          <video id="overview" width="100%" autoplay loop muted poster="./static/videos/teaser.png">
+            <source src="static/videos/teaser.mp4" type="video/mp4" />
+          </video>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>The Building Blocks of Our Approach / Preliminaries</h2>
+      <p>
+        In fields such as Natural Language Processing and Computer Vision, self-supervised learning coupled with scaling
+        has been effective in improving performance, and enabling transformative capabilities of large models.
+        <br />
+        Our research focuses on <strong>scaling reinforcement learning</strong> by leveraging four key principles:
+      </p>
+
+      <div class="building-blocks-grid">
+        <div class="block">
+          <h3>1. Self-Supervised Reinforcement Learning</h3>
+          <p>
+            Traditional reinforcement learning (RL) and self-supervised learning are often seen as separate paradigms.
+            However, we unify them into
+            <strong>self-supervised RL</strong> systems that explore and learn policies <em>without relying on a reward
+              function or demonstrations</em>.
+            We implement this using <strong>contrastive RL (CRL)</strong>—one of the simplest self-supervised RL
+            algorithms.
+          </p>
+        </div>
+
+        <div class="block">
+          <h3>2. Increasing Available Data</h3>
+          <p>
+            Scaling RL requires <strong>more efficient data collection and processing</strong>. We achieve this by
+            building
+            on <strong>GPU-accelerated RL frameworks</strong>, enabling significantly faster training and improved
+            sample
+            efficiency.
+          </p>
+        </div>
+
+        <div class="block">
+          <h3>3. Enhancing Signal Density</h3>
+          <p>
+            RL provides very few bits of feedback—often just a sparse reward after a long sequence of observations.
+            This results in a <em>low feedback-to-parameter ratio</em>, making optimization challenging. Conventional
+            wisdom
+            suggests that <strong>self-supervised learning</strong> is essential for training large models, with RL used
+            primarily for
+            fine-tuning. Indeed, breakthroughs in fields like computer vision, NLP, and multimodal learning have largely
+            relied on
+            self-supervised methods. To scale RL effectively, incorporating <strong>self-supervision</strong> will be
+            crucial.
+          </p>
+        </div>
+
+        <div class="block">
+          <h3>4. Network Scale</h3>
+          <p>
+            Deeper networks can improve RL performance, but training stability becomes a challenge. We scale networks up
+            to
+            <strong>100× deeper</strong> than those in prior work, incorporating architectural techniques such as:
+          </p>
+          <ul>
+            <li><strong>Residual connections</strong> for stable gradient flow</li>
+            <li><strong>Layer normalization</strong>
+              <!-- for consistent activation scaling -->
+            </li>
+            <li><strong>Swish activation functions</strong>
+              <!-- for smoother optimization -->
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <style>
+        .building-blocks-grid {
+          display: grid;
+          grid-template-columns: repeat(2, 1fr);
+          gap: 20px;
+          margin: 20px 0;
+        }
+
+        .block {
+          background-color: #f5f5f5;
+          border: 1px solid #ddd;
+          border-radius: 8px;
+          padding: 20px;
+        }
+
+        .block h3 {
+          margin-top: 0;
+          text-align: center;
+        }
+      </style>
+    </section>
+
+    <section>
+      <h2>Planning Invariance enables Horizon Generalization</h2>
+      <div>
+        <p>
+          A policy generalizes over the horizon if performance for start-goal pairs $(s,g)$
+          separated by a small temporal distance $d(s,g) < c$ yields improved performance over more distant start-goal
+            pairs $(s',g')$ with $d(s',g')> c$.
+        </p>
+      </div>
+      <div class="theorem">
+        <span>Definition</span>
+        <span>Horizon Generalization</span>
+        Suppose $c &gt; 0$ and $d(s, g)$ is a quasimetric over the start-goal space $\S \times
+        \S$. In the single-goal, controlled ("fixed") case, a policy $\pi(a\mid s,g)$
+        <em>generalizes over the horizon</em> if optimality over nearby start-goal pairs
+        $\mathcal{B}_{c} = \{(s,g) \in \mathcal{S \times S} \mid d(s,g) &lt; c\}$ everywhere
+        implies optimality over the entire state space $\mathcal{S}$.
+      </div>
+      <div class="columns">
+        <div class="wide vertical aypad">
+          <p>
+            This property is closely related to the notion of planning invariance, and we
+            theoretically show that planning invariance is a necessary condition for horizon
+            generalization. Empirically, we will also see that planning invariance is closely
+            linked with this notion of horizon generalization.
+          </p>
+        </div>
+        <div class="thin grow vertical">
+          <img src="static/oldfigures/horizon_generalization_dull_purple.svg" />
+        </div>
+      </div>
+      <div class="theorem">
+        <span>Definition</span>
+        <span>Path Relaxation Operator</span>
+        Let $\sc{PATH}_{d}(s,g)$ be the path relaxation operator over quasimetric $d(s,g)$. For
+        any triplet of states $(s,w,g) \in \gS \times \gS \times \gS$, \[ d(s,g) \leftarrow
+        \sc{PATH}_{d}(s,g) \triangleq \min_w d(s, w) + d(w, g). \]
+      </div>
+      <div class="theorem">
+        <span>Theorem</span>
+        <span>Horizon generalization exists</span>
+        Consider a deterministic goal-conditioned MDP with states $\gS$, actions $\gA$, and
+        goal-conditioned Kronecker delta reward function $r_{g}(s) = \delta_{(s,g)}$ where there
+        are no states outside of $\gS$. Let finite thresholds $c &gt; 0$ and quasimetrics $d(s,g)$
+        over the start-goal space $\gS \times \gS$ be given. Then, a quasimetric policy
+        $\pi_{d}(a\mid s,g)$ that is optimal over $\cB_{c} = \{(s,g) \in \mathcal{S \times S} \mid
+        d(s,g) &lt; c\}$ is optimal over the entire start-goal space $\cS \times \cS$.
+      </div>
+      <div class="columns xspace centered margin">
+        <div class="half vertical">
+          <p class="caption">
+            <b>Figure.</b>
+            Empirically, we compare the degree of planning invariance and horizon generalization
+            ($\eta$ in figure) for different GCRL methods in a maze task. These quantities are
+            generally correlated. The exception is the random policy, which is trivially planning
+            invariant but does not generalize over the horizon&mdash;planning invariance is
+            necessary but not sufficient for horizon generalization.
+          </p>
+        </div>
+        <div class="wide vertical margin xpad">
+          <img src="static/oldfigures/invariance_eta.svg" />
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>Empirical Results</h2>
+      <div class="yspace centered">
+        <!-- Single row for emergent capabilities -->
+        <div class="full-width margin" style="width: 100%; margin: 0; display: flex; align-items: center;">
+          <div style="width: 61%; margin: 0;">
+            <img src="static/figures/emergent_capabilities.png" width="100%" />
+          </div>
+          <p class="caption" style="width: 35%; margin-left: 4%;">
+            <b>Figure.</b>
+            <br />
+            <b>Increasing depth results in new capabilities:</b><br />
+            <b><i>Row 1</i></b>: A humanoid agent trained with network depth 4 collapses and throws itself towards the
+            goal, as
+            opposed to in <b><i>Row 2</i></b>, where the depth 16 agent gains the ability to walk upright.
+            <br /><b><i>Row 3</i></b>: At depth 64, the humanoid agent in U-Maze struggles to reach the goal and falls.
+            <br /><b><i>Row 4</i></b>: An impressively novel policy emerges at depth 256, as the agent exhibits an
+            acrobatic
+            strategy
+            of compressing its body to vault over the maze wall.
+          </p>
+        </div>
+
+        <!-- Two column layout for remaining pairs -->
+        <div class="columns bypad centered" style="width: 100%; margin: 0; display: flex;">
+          <div style="width: 48%; margin-right: 2%;">
+            <div style="width: 60%; margin: 0 auto;">
+              <img src="static/figures/stitching.png" width="100%" />
+            </div>
+            <p class="caption">
+              <b>Figure.</b><br />
+              <b>Deeper networks exhibit improved generalization.</b> <i>(Top left)</i> We modify the training setup of
+              the Ant U-Maze environment such that start-goal pairs are separated by ≤3 units. This design guarantees
+              that no evaluation pairs <i>(top right)</i> were encountered during training, testing the ability for
+              combinatorial generalization via "stitching."
+              <br />
+              <i>(Bottom)</i> Generalization ability improves as network
+              depth grows from 4 to 16 to 64 layers.
+            </p>
+          </div>
+          <div style="width: 48%; margin-left: 2%;">
+            <div style="width: 70%; margin: 0 auto;">
+              <img src="static/figures/Q_vis.png" width="100%" />
+            </div>
+            <p class="caption">
+              <b>Figure.</b><br />
+              <b>Deeper Q-functions are qualitatively different.</b> In the U4-Maze, the start and goal positions are
+              indicated by the ⊙ and <b>G</b> symbols respectively, and the visualized Q values are computed via the L₂
+              distance in the learned representation space, i.e., Q(s,a,g) = ‖φ(s,a) - ψ(g)‖₂. The shallow depth-4
+              network <i>(left)</i> appears to naively rely on Euclidean proximity, exhibited by the high Q values of
+              the semicircular gradient near the start position, despite the maze wall.
+              <br />
+              In the depth-64 heatmap
+              <i>(right)</i>, the highest Q values cluster at the goal, gradually tapering along the maze's interior
+              boundary. These results highlight how increasing depth is important for learning value functions in
+              goal-conditioned settings, which are characterized by long horizons and sparse rewards.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>Empirical Evaluation of Horizon Generalization</h2>
+      <div class="yspace centered">
+        <div class="columns aypad centered">
+          <div class="full centered">
+            <div class="margin">
+              <img src="static/oldfigures/ant_results.svg" />
+            </div>
+            <div class="bxpad">
+              <p class="caption">
+                <b>Figure.</b>
+                We evaluate several RL methods, measuring the horizon generalization of each.
+                These results reveal that <em>(i)</em> some degree of horizon generalization is
+                possible; <em>(ii)</em> the learning algorithm influences the degree of
+                generalization; <em>(iii)</em> the value function architecture influences the
+                degree of generalization; and <em>(iv)</em> no method achieves perfect
+                generalization, suggesting room for improvement in future work.
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="margin xpad">
+          <div class="margin">
+            <img src="static/oldfigures/other_results.svg" />
+          </div>
+          <p class="caption">
+            <b>Figure.</b>
+            <i>(Left)</i> A large Ant maze environment with a winding S-shaped corridor.
+            <i>(Right)</i> A humanoid environment with a complex, high-dimensional observation
+            space. We evaluate the horizon generalization as measured by $\eta$ for a quasimetric
+            architecture (CMD) and a standard architecture (CRL), quantifying the ratio of success
+            rates when evaluating at 5m vs 10m, 15m vs 30m, and 25m vs 50m after training to reach
+            goals within 10m.
+          </p>
+        </div>
+        <div class="columns bypad centered margin">
+          <div class="half margin">
+            <div class="margin">
+              <img src="static/oldfigures/fa_horizon.svg" />
+            </div>
+            <p class="caption">
+              <b>Figure.</b>
+              We evaluate on $(s, g)$ pairs of varying distances, observing that metric regression
+              with a quasimetric exhibits strong horizon generalization.
+            </p>
+          </div>
+          <div class="half margin">
+            <div class="margin">
+              <img src="static/oldfigures/fa_planning.svg" />
+            </div>
+            <p class="caption">
+              <b>Figure.</b>
+              In line with our analysis, the policy that has strong horizon generalization is also
+              more invariant to planning: combining that policy with planning does not increase
+              performance.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>Summary of Key Empirical Findings</h2>
+      <div class="findings-container">
+        <ul class="key-findings">
+          <li>
+            CRL is scalable to depths unattainable by other RL proprioceptive algorithms (1000+ layers), perhaps due to
+            its self-supervised nature.
+          </li>
+          <li>
+            Both width and depth are key factors influencing CRL's performance, but depth achieves greater performance
+            and better parameter-efficiency (similar performance for 50× smaller models).
+          </li>
+          <li>
+            We observe signs of emergent behaviors in CRL with deep neural networks, such as humanoid learning to walk
+            and navigate a maze.
+          </li>
+          <li>
+            Scale unlocks learning difficult maze topologies.
+          </li>
+          <li>
+            Batch size scaling occurs in CRL for deep networks.
+          </li>
+          <li>
+            CRL benefits from both the actor and critic scale.
+          </li>
+        </ul>
+      </div>
+
+      <style>
+        .findings-container {
+          background-color: #f5f5f5;
+          border: 1px solid #ddd;
+          border-radius: 8px;
+          padding: 20px;
+          margin: 20px 0;
+          width: 70%;
+        }
+
+        .key-findings {
+          margin: 0;
+          padding-left: 20px;
+        }
+
+        .key-findings li {
+          margin-bottom: 10px;
+        }
+
+        .key-findings li:last-child {
+          margin-bottom: 0;
+        }
+      </style>
+    </section>
+
+    <section>
+      <h2>
+        ${\bf B\kern-.05em{\small I\kern-.025em B}\kern-.08em
+        T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}$
+      </h2>
+      <pre class="language-bibtex bibtex" id="bibtex" onclick="selectContent('#bibtex')"><code>@inproceedings{myers2025horizon,
+    author    = {Myers, Vivek and Ji, Catherine and Eysenbach, Benjamin},
+    booktitle = {{International Conference} on {Learning Representations}},
+    title     = {{Horizon Generalization} in {Reinforcement Learning}},
+    url       = {https://arxiv.org/abs/2501.02709},
+    year      = {2025},
+}</code></pre>
+    </section>
+  </main>
+</body>
+
+</html>
