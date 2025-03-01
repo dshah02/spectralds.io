@@ -160,102 +160,51 @@
     </section>
 
     <section>
-      <h2>The Building Blocks of Our Approach / Preliminaries</h2>
+      <h2>The Building Blocks of RL Scaling (Our Approach)</h2>
       <p>
-        In fields such as Natural Language Processing and Computer Vision, self-supervised learning coupled with scaling
-        has been effective in improving performance, and enabling transformative capabilities of large models.
-        <br />
-        Our research focuses on <strong>scaling reinforcement learning</strong> by leveraging four key principles:
+        In NLP and Computer Vision, scaling up model size has driven notable AI advancements in recent years. Yet, why hasn't RL seen comparable progress? 
+        In this work, we ask: can we leverage insights and lessons from language and vision to serve as building blocks for scaling RL?
       </p>
 
-      <div class="building-blocks-grid">
-        <div class="block">
-          <h3>1. Self-Supervised Reinforcement Learning</h3>
-          <p>
-            Traditional reinforcement learning (RL) and self-supervised learning are often seen as separate paradigms.
-            However, we unify them into
-            <strong>self-supervised RL</strong> systems that explore and learn policies <em>without relying on a reward
-              function or demonstrations</em>.
-            We implement this using <strong>contrastive RL (CRL)</strong>—one of the simplest self-supervised RL
-            algorithms.
-          </p>
-        </div>
+      <p>
+        At first glance, it makes sense why training very large RL networks should be difficult: the RL problem provides very few bits of feedback (e.g., only a sparse reward after a long sequence of observations), so the ratio of feedback to parameters is very small. The conventional wisdom (which many recent models reflect) has been that large AI systems must be trained primarily in a self-supervised fashion and that RL should only be used to finetune these models. Indeed, many of the recent breakthroughs in other fields have been primarily achieved with <em>self-supervised</em> methods.
+      </p>
 
-        <div class="block">
-          <h3>2. Increasing Available Data</h3>
-          <p>
-            Scaling RL requires <strong>more efficient data collection and processing</strong>. We achieve this by
-            building
-            on <strong>GPU-accelerated RL frameworks</strong>, enabling significantly faster training and improved
-            sample
-            efficiency.
-          </p>
-        </div>
+      <h3>Self-supervised learning</h3>
+      <p>
+        Our first step is to rethink the conventional wisdom above: "reinforcement learning" and "self-supervised learning" are not diametric learning rules, but rather can be married together into self-supervised RL systems that explore and learn policies without reference to a reward function or demonstrations. In this work, we use one of the simplest self-supervised RL algorithms, contrastive RL (CRL).
+      </p>
 
-        <div class="block">
-          <h3>3. Enhancing Signal Density</h3>
-          <p>
-            RL provides very few bits of feedback—often just a sparse reward after a long sequence of observations.
-            This results in a <em>low feedback-to-parameter ratio</em>, making optimization challenging. Conventional
-            wisdom
-            suggests that <strong>self-supervised learning</strong> is essential for training large models, with RL used
-            primarily for
-            fine-tuning. Indeed, breakthroughs in fields like computer vision, NLP, and multimodal learning have largely
-            relied on
-            self-supervised methods. To scale RL effectively, incorporating <strong>self-supervision</strong> will be
-            crucial.
-          </p>
-        </div>
+      <h3>Data Scale</h3>
+      <p>
+        A key factor in scaling has been the vast amount of internet data available for learning&mdash;meanwhile, data sparsity has often been a challenge in RL. In recent years, however, there's been a proliferation of GPU-accelerated RL environments, enabling the collection of hundreds of millions of environment steps of online RL data within a few hours. In this work, we leverage the JaxGCRL environment of robotic locomotion, navigation, and manipulation tasks.
+      </p>
 
-        <div class="block">
-          <h3>4. Network Scale</h3>
-          <p>
-            Deeper networks can improve RL performance, but training stability becomes a challenge. We scale networks up
-            to
-            <strong>100× deeper</strong> than those in prior work, incorporating architectural techniques such as:
-          </p>
-          <ul>
-            <li><strong>Residual connections</strong> for stable gradient flow</li>
-            <li><strong>Layer normalization</strong>
-              <!-- for consistent activation scaling -->
-            </li>
-            <li><strong>Swish activation functions</strong>
-              <!-- for smoother optimization -->
-            </li>
-          </ul>
-        </div>
-      </div>
+      <h3>Signal Density (revisiting the "bits of information")</h3>
+      <p>
+        The success of scaling relies not only on data quantity, but also the density of training signals: in next-word prediction, every token in a text becomes a labeled example. By contrast, RL often relies on sparse, delayed rewards, with goal-conditioned RL providing only a single bit of reward feedback per trajectory. 
+        However, one underlying mechanism of the CRL algorithm is Hindsight Experience Replay (HER). HER "relabels" each trajectory with the goal the agent actually achieved, so all trajectory data, even unsuccessful attempts that did not reach the goal reward, effectively become labeled samples for learning, significantly improving signal density in a self-supervised manner.
+      </p>
 
-      <style>
-        .building-blocks-grid {
-          display: grid;
-          grid-template-columns: repeat(2, 1fr);
-          gap: 20px;
-          margin: 20px 0;
-        }
+      <h3>Classification vs. Regression</h3>
+      <p>
+        Scaling in language and vision are based on a classification paradigm, where increased network capacity yields predictably improved cross-entropy loss. One related work is <a href="https://arxiv.org/pdf/2403.03950">Farebrother et al. (2024)</a>, who showed that discretizing the TD objective of value-based RL into a categorical cross-entropy loss leads to improved scaling properties. 
+        In this vein, note that the CRL algorithm in our approach effectively uses a cross entropy loss as well. Its InfoNCE objective is a generalization of the cross-entropy loss, thereby performing RL tasks by classifying whether current states and actions belong to the same or different trajectory that leads toward a goal state. As such, our work serves as a second piece of evidence that classification, much like cross-entropy's role in the scaling success in NLP, could serve as a building block in RL.
+      </p>
 
-        .block {
-          background-color: #f5f5f5;
-          border: 1px solid #ddd;
-          border-radius: 8px;
-          padding: 20px;
-        }
+      <h3>Network Architecture</h3>
+      <p>
+        Finally, training large RL networks often yields training instabilities. Thus, scaling will require incorporating architectural techniques from prior work, including residual connections, layer normalization, and Swish activation. These components enable increasing model capacity while preserving training stability.
+      </p>
 
-        .block h3 {
-          margin-top: 0;
-          text-align: center;
-        }
-
-        #qualitative-evaluation {
-          scroll-margin-top: 30px;
-        }
-      </style>
+      <p>
+        The primary contribution of this work is to show that integrating these ``building block'' scaling components into a single RL approach exhibits strong scalability. We anticipate that future research may build on this foundation by incorporating or uncovering additional ``building block'' elements.
+      </p>
     </section>
 
     <section>
       <h2>Empirical Results</h2>
 
-      <h3 style="text-align: center; color: #27579a;">Scaling Depth Improves Performance</h3>
       <div class="yspace centered">
         <div class="full-width margin"
           style="width: 100%; margin: 0; display: flex; align-items: center; justify-content: center;">
@@ -335,7 +284,7 @@
 
       <hr style="width: 50%; margin: 40px auto; border: none; border-top: 1px solid #ddd;" />
 
-      <h3 style="text-align: center; color: #27579a;">Scaling Depth Unlocks Batch Size Scaling and Beats Width Scaling
+      <h3 style="text-align: center; color: #27579a;">Scaling Width and Batch Size
       </h3>
       <!-- Two column layout for width and batch size -->
       <div class="columns bypad centered" style="width: 100%; margin: 0; display: flex;">
