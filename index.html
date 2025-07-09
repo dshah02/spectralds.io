@@ -226,7 +226,7 @@
         <div class="background-item">
           <h3><span class="number">2</span> State-Space Model Promise</h3>
           <p>
-            Linear Dynamical Systems and state-space models offer attractive O(L) recurrent inference, but traditional gradient-based training suffers from instability due to vanishing/exploding gradients, especially for systems requiring long-term memory. For a RNN/LDS with state dimension h, we require:
+            Linear Dynamical Systems and state-space models offer attractive O(L) recurrent inference, but traditional gradient-based training suffers from instability due to vanishing/exploding gradients, especially for systems requiring long-term memory. For an RNN/LDS with state dimension h, we require:
           </p>
           <div class="equation">
             $$\text{RNN/LDS: } O(h \cdot (T + K)) \text{ operations}$$
@@ -248,7 +248,7 @@
       <div class="insight-block">
         <h3>What we offer!</h3>
         <p>
-          <strong>SpectraLDS bridges this gap</strong> by enabling stable spectral training followed by distillation to efficient LDS inference. We achieve the training robustness of spectral methods with the inference speed of recurrent models—reducing complexity from O(L log³ L) to O(L) per token while maintaining identical accuracy.
+          <strong>SpectraLDS bridges this gap</strong> by enabling stable spectral training followed by distillation to efficient LDS inference. We achieve the training robustness of spectral methods with the inference speed of recurrent models—reducing complexity from O(L log³ L) to O(L) per token while maintaining identical accuracy. 
         </p>
         <div class="comparison-container">
           <table class="comparison-table">
@@ -264,8 +264,8 @@
               <tr>
                 <td>Transformers</td>
                 <td>✓ Stable</td>
-                <td>✗ O(T²)</td>
-                <td>✗ O(T + K)</td>
+                <td>✗ O(L^2)</td>
+                <td>✗ O(L)</td>
               </tr>
               <tr>
                 <td>Direct LDS</td>
@@ -277,7 +277,7 @@
                 <td>STU</td>
                 <td>✓ Stable</td>
                 <td>~ O(L log³ L)</td>
-                <td>~ O(K)</td>
+                <td>✗ O(L)</td>
               </tr>
               <tr class="highlight-row">
                 <td><strong>SpectraLDS</strong></td>
