@@ -219,7 +219,7 @@
             Transformer architectures suffer from quadratic complexity in sequence length due to self-attention, making them computationally expensive for long sequences. This has driven research toward more efficient alternatives that preserve expressiveness while reducing computational costs. To generate to generate K tokens with a prompt of length T, we require:
           </p>
           <div class="equation">
-            $$\text{Attention: } O(T^2 + TK + K^2) \text{ operations}$$ 
+            $$\text{Attention: } O(T^2 + K^2) \text{ operations}$$ 
           </div>
         </div>
         
